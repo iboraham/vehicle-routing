@@ -24,7 +24,7 @@ add.onclick= function() {
 
     xmlhttp.onreadystatechange = function() {
         var myArr = JSON.parse(this.responseText);
-        document.getElementById("rows").innerHTML = adress;
+        document.getElementById("rows").innerHTML = myArr.rows;
     };
 };
 
