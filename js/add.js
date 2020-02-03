@@ -24,18 +24,9 @@ add.onclick= function() {
 
     xmlhttp.onreadystatechange = function() {
         var myArr = JSON.parse(this.responseText);
-        printValues(myArr);
-        document.getElementById("rows").innerHTML = this.responseText
+        document.getElementById("rows").innerHTML = this.rows.value
     };
 };
 
-function printValues(obj) {
-    for(let k in obj) {
-        if(obj[k] instanceof Object) {
-            printValues(obj[k]);
-        } else {
-           console.log(obj[k]);
-        };
-    }
-  };
+
 
