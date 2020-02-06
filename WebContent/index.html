@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Version 0.12</title>
+    <title>Version 0.13</title>
     <script src="jquery-3.4.1.min.js"></script>
     
 </head>
@@ -14,13 +14,19 @@
  
     <form action="add">
         <div>
-            Enter the API: <input type="text" name="api_key"> <br>
-            Enter the adresses <input type="text" name="adress"> <br>
+            Enter the API Key: <input type="text" name="api_key"> <br>
+            Enter the addresses <input type="text" name="adress"> <br>
+            Mode:
+            <input type="radio" name="mode" value="driving" />Driving
+			<input type="radio" name="mode" value="biking" />Biking 
+			<input type="radio" name="mode" value="walking" />Walking <br>
+			Unit:
+            <input type="radio" name="unit" value="kilometer" />Kilometer-Minute
+			<input type="radio" name="unit" value="meter" />Meter-Second <br>
             <input type="submit">
         </div>
     </form>
     
-    <script  src = "js/add.js"></script>
     
     
 </body>
