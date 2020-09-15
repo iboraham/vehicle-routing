@@ -196,39 +196,125 @@ public class Solution {
 		return 0;
 	}
 	
-	public String addToResponse(String htmlResponse) {
+	public String addToResponse(String htmlResponse,String api_key) {
 			
 	        // build HTML code
-			htmlResponse += "<div class=\"container\">";
+			htmlResponse += "<div class=\"container header-container\">";
 			htmlResponse += "<div class=\"row row-cols-2\">";
-	        htmlResponse += "<h1>Truck Routes" + "<br/>";
-	        htmlResponse += "<h2> Solution id:" +this.id + "<br/>";   
-	        htmlResponse += "Total Solution Distance is: " + this.totalDistance + "<br/>";   
+			htmlResponse += "<div class ='col-sm-4'>";
+	        htmlResponse += "<h1 class=\"display-1\" style=\"margin-left:5%; \">Truck Routes" + "</h1>";
+	        htmlResponse += "</div>";
+        	String typeString="";
+        	int vehicle =0 ;
+        	for(int i=0;i<truckPop.size();i++){
+	        	if ( (this.truckPop.get(i).type == 0) || (this.truckPop.get(i).type == 1) ) {
+	        		vehicle++;
+	        	} 
+        	}
+        	htmlResponse += "<div class ='col-sm-8' right-header'>";
+	        htmlResponse += "<h2 style=\"margin-top:5%; margin-left:15%;\" lang = 'tr'> Total # of Vehicle: " +vehicle + "<br/>";   
+	        htmlResponse += "Total # of Parcels: " +(truckPop.size()-vehicle) + "<br/>";   
+	        htmlResponse += "Total Solution Distance is: " + this.totalDistance + " km<br/>";   
 	        double roundOff = Math.round(this.totalCost * 100.0) / 100.0;
-	        htmlResponse += "Total Solution Cost is: " + roundOff+" Turkish Liras" + "</h2>";
+	        htmlResponse += "Total Solution Cost is: " + roundOff+"<span>&#8378;</span>" + "</h2>";
+	        htmlResponse += "</div>";
 	        htmlResponse += "</div></div>";
-	        htmlResponse += "<div class=container>";
-	        htmlResponse += "<div class=row>";
 	        for(int i=0;i<truckPop.size();i++){
-	        	htmlResponse += "<div class=\"col-sm-12\">";
+	        	if(i % 2==0 && i!=truckPop.size()-2 && i!=truckPop.size()-1) {
+	        		htmlResponse += addparticles(); }
+	        	htmlResponse += "<div class=container id = 'truck-container'>";
+		        htmlResponse += "<div class=row>";
+	        	htmlResponse += "<div class=\"col-sm-6\">";
 	        	htmlResponse += "<p>";
 	        	htmlResponse += "Truck "+i+":"+this.truckPop.get(i).route.toString()+" <br/>";
 	        	htmlResponse += "Truck "+i+" Route with City Names ---> ";
 	        	for(int j=0;j<this.truckPop.get(i).route.size();j++) {
 		        	int plaka=this.truckPop.get(i).route.get(j)-1;
-		        	htmlResponse += data.get(plaka).name +"->"; }
+		        	if(j != this.truckPop.get(i).route.size()-1){
+		        	htmlResponse += data.get(plaka).name +"->";}
+		        	else {
+		        		htmlResponse += data.get(plaka).name;
+		        		}
+		        	}
 	        	htmlResponse +=" <br/>";
-	        	htmlResponse += "Truck Type: "+this.truckPop.get(i).type + " <br/>";
-	        	htmlResponse += "Total Area: "+(this.truckPop.get(i).totalCapacity-this.truckPop.get(i).capacity) + " <br/>";
+	        	if (this.truckPop.get(i).type == 0) {
+	        		typeString = "Truck";
+	        	} else if (this.truckPop.get(i).type == 1) {
+	        		typeString = "Lorry";
+	        	} else {
+	        		typeString = "Parcel";
+	        	}
+	        	htmlResponse += "Truck Type: "+ typeString+ " <br/>";
+	        	htmlResponse += "Total Volume: "+(this.truckPop.get(i).totalCapacity-this.truckPop.get(i).capacity) + " Desi<br/>";
 	        	double roundOffTruck = Math.round(this.truckPop.get(i).cost * 100.0) / 100.0;
-	        	htmlResponse += "Truck Cost: "+ roundOffTruck + " <br/> <br/>";
+	        	htmlResponse += "Truck Cost: "+ roundOffTruck +"<span>&#8378;</span> <br/>";
+	        	htmlResponse += "Total Kilometer Travelled by the Truck: "+ this.truckPop.get(i).distance +" km<br/> <br/>";
 	        	htmlResponse += "</p>";
+	        	if( api_key != "") {
+		        	htmlResponse += "<div>";
+		        	htmlResponse += "<button class='button' onclick=\"mfunc"+i+"()\"><span>\n" + 
+			        		"      Truck"+i+"\n" + 
+			        		"    </span></button>\n";
+		        	htmlResponse += "</div>";
+	        	}
 	        	htmlResponse += "</div>";
+	        	//Buttons for visualize in map
+	        	htmlResponse += "<div class=\"col-sm-6\" id=\"mapid"+i+"\"></div>";
+	        	htmlResponse += "</div>";			        
+	        	htmlResponse += "</div>";
+	        	htmlResponse += "<div class=container>";
+		        htmlResponse += "</div>";
+		        htmlResponse +=
+			        		"    <style>\n" + 
+			        		"      #mapid"+i+" {\n" + 
+			        		"        height: 270px;\n" +
+			        		"  		 width: 100%;" +
+			        		"      }\n" + 
+			        		"    </style>\n";
+	        	
+	        	//htmlResponse += "</div>";
+	        	
 	        }
-	        htmlResponse += "</div></div>";
+	        //htmlResponse += "</div></div>";
 	        return htmlResponse;
 	}
 	
+	private String addparticles() {
+		String particles = "<div id=\"particle-container\">\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"      <div class=\"particle\"></div>\n" + 
+				"    </div>";
+		return particles;
+	}
+
 	public void check_lorry() {
 		for(int i=0; i<this.truckPop.size();i++) {
 			if((this.truckPop.get(i).totalCapacity-this.truckPop.get(i).capacity) <= 9216 & this.truckPop.get(i).type == 0) {

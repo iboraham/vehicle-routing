@@ -21,6 +21,22 @@
       integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
       crossorigin=""
     ></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+      crossorigin="anonymous"
+    />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/form.css" />
+    <link rel="stylesheet" href="css/particle.css" />
+	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon.ico">
     <title>Team07 Routing App</title>
   </head>
   <body>
@@ -46,7 +62,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="aboutus.html">About us</a>
+            <a class="nav-link" href="#aboutus">About us</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -62,37 +78,130 @@
         </form>
       </div>
     </nav>
-    <form action="add">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <p>Enter the depot adresses below</p>
-            <input type="text" name="depots" /> <br />
+    <div id="particle-container">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="container login-container">
+      <div class="col-md-6 login-form-2">
+        <h1 class="logo">Team 07 MDCVRP App</h1>
+        <form action="add">
+          <div class="form-group">
+            <input
+              type="text"
+              name="depots"
+              class="form-control"
+              placeholder="Your depots i.e 34,6,41... *"
+              value=""
+            />
           </div>
-          <div class="col">
-            <p>
-              Use copy your demands of csv file.
+          <div class="form-group">
+            <input
+              type="text"
+              name="demand"
+              class="form-control"
+              placeholder="Copy and Paste your demands i.e 34;4555... *"
+              value=""
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name="api"
+              class="form-control"
+              placeholder="Your api key from openrouteservice"
+              value=""
+            />
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btnSubmit" value="Submit" />
+          </div>
+          <div class="form-group">
+            <p class="altmt">
+              If you want get direction of your trucks, please sign up and get
+              api key from
+              <a
+                href="https://openrouteservice.org/"
+                class="ForgetPwd"
+                target="_blank"
+                >openrouteservice</a
+              >.
             </p>
-            <input type="text" name="demand" />
           </div>
+        </form>
+      </div>
+    </div>
+    <div id="particle-container">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div id="aboutus" class="container">
+      <div class="row">
+        <div class="container">
+          <p>
+            <a class="navbar-brand" href="#">
+              <img src="images/aboutus.jpeg" style="height: 100%; width: 100%;"
+            /></a>
+          </p>
         </div>
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <p>
-              If you want get direction of your trucks, please signup and get
-              api key from openroute service.
-            </p>
-            <input type="text" name="api" />
-          </div>
-          <div class="col">
-            <button type="submit">Submit</button>
-          </div>
-        </div>
-      </div>
-    </form>
-
+    </div>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

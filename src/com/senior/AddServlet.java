@@ -25,6 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileItemFactory;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,6 +40,7 @@ import org.xml.sax.SAXParseException;
 
 
 
+@SuppressWarnings("serial")
 public class AddServlet extends HttpServlet
 {
 
@@ -46,6 +52,7 @@ public class AddServlet extends HttpServlet
 		String depots_str = req.getParameter("depots");
 		String demand =req.getParameter("demand");
 		String api_key = req.getParameter("api");
+		
 
 		//depots
 		int[] depotsx = new int[max_number_of_depot];
@@ -103,28 +110,50 @@ public class AddServlet extends HttpServlet
         		"      href=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.css\"\n" + 
         		"      integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\"\n" + 
         		"      crossorigin=\"\"\n" + 
-        		"    />\n" +
-        		"<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" integrity=\"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh\" crossorigin=\"anonymous\">" +
+        		"    />\n" + 
+        		"    <link\n" + 
+        		"      rel=\"stylesheet\"\n" + 
+        		"      href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\"\n" + 
+        		"      integrity=\"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh\"\n" + 
+        		"      crossorigin=\"anonymous\"\n" + 
+        		"    />\n" + 
         		"    <script\n" + 
         		"      src=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.js\"\n" + 
         		"      integrity=\"sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==\"\n" + 
         		"      crossorigin=\"\"\n" + 
         		"    ></script>\n" + 
-        		"    <title>API Deneme</title>\n" + 
-        		"  </head>\n" + 
-        		"  <body>\n";
+        		"    <link\n" + 
+        		"      rel=\"stylesheet\"\n" + 
+        		"      href=\"https://use.fontawesome.com/releases/v5.0.13/css/all.css\"\n" + 
+        		"      integrity=\"sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp\"\n" + 
+        		"      crossorigin=\"anonymous\"\n" + 
+        		"    />\n" + 
+        		"    <link\n" + 
+        		"      href=\"//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css\"\n" + 
+        		"      rel=\"stylesheet\"\n" + 
+        		"      id=\"bootstrap-css\"\n" + 
+        		"    />\n" + 
+        		"    <script src=\"//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js\"></script>\n" + 
+        		"    <script src=\"//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" + 
+        		"    <link rel=\"stylesheet\" href=\"css/add.css\" />\n" +
+        		"    <link rel=\"stylesheet\" href=\"css/form.css\" />\n" +  
+        		"    <link rel=\"stylesheet\" href=\"css/particle.css\" />\n" +
+        		"    <link rel=\"stylesheet\" href=\"css/button.css\" />\n" + 
+        		"	<link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"images/favicon/favicon.ico\">\n" + 
+        		"    <title>Team07 Routing App</title>\n" + 
+        		"  </head><body>";
         htmlResponse+=addNavBar(sol); 
-        htmlResponse=sol.best.addToResponse(htmlResponse);
+        htmlResponse += "<div class=\"container result-container\">";
+        htmlResponse=sol.best.addToResponse(htmlResponse,api_key);
+        
         
         if(api_key != "") {
-	        htmlResponse +=
-	        		"    <h2>Visualize</h2>\n";
-	        htmlResponse += add_button_for_each_truck(sol);
-	        
-	        htmlResponse += "<div class=\"container\">\n";
+        	
+	        htmlResponse += "<div class = 'row'><div class = 'col'>";
+	        //htmlResponse += add_button_for_each_truck(sol);
 	        int counter=0;
 	        int mapid = 0;
-	        while(counter<sol.best.truckPop.size()){
+	        /*while(counter<sol.best.truckPop.size()){
 	        	htmlResponse +=		"  <div class=\"row\">";
 		        for(int i=0;i<2;i++){
 			        htmlResponse +=
@@ -140,7 +169,8 @@ public class AddServlet extends HttpServlet
 		        		"      #mapid"+i+" {\n" + 
 		        		"        height: 180px;\n" +
 		        		"      }\n" + 
-		        		"    </style>\n";}
+		        		"    </style>\n";}*/
+	        
 	        htmlResponse += addfunc_for_each_button(sol,api_key);
         } else {
         	htmlResponse += "<div class = 'col' id='link'>" +
@@ -148,21 +178,39 @@ public class AddServlet extends HttpServlet
         			" About api key follow <a href=\"https://openrouteservice.org/\" target=\"_blank\">this</a> link.</p>"+
         			"</div>";
         }
-        
+        htmlResponse += "</div></div>";
+        htmlResponse += "<script\n" + 
+        		"      src=\"https://code.jquery.com/jquery-3.4.1.slim.min.js\"\n" + 
+        		"      integrity=\"sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n\"\n" + 
+        		"      crossorigin=\"anonymous\"\n" + 
+        		"    ></script>\n" + 
+        		"    <script\n" + 
+        		"      src=\"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js\"\n" + 
+        		"      integrity=\"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo\"\n" + 
+        		"      crossorigin=\"anonymous\"\n" + 
+        		"    ></script>\n" + 
+        		"    <script\n" + 
+        		"      src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"\n" + 
+        		"      integrity=\"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6\"\n" + 
+        		"      crossorigin=\"anonymous\"\n" + 
+        		"    ></script>";
         htmlResponse += ""
         		+ "<script src=\"https://code.jquery.com/jquery-3.4.1.slim.min.js\" integrity=\"sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n\" crossorigin=\"anonymous\"></script>\n" + 
         		"<script src=\"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js\" integrity=\"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo\" crossorigin=\"anonymous\"></script>\n" + 
         		"<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\" integrity=\"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6\" crossorigin=\"anonymous\"></script>";
-        htmlResponse += "</body></html> ";
+        htmlResponse += "</div>";
+        htmlResponse += "</body><footer>";
+        //Time elapsed
+      		long endTime = System.nanoTime();
+      		long timeElapsed = endTime - startTime;
+      		htmlResponse += "\nExecution time in milliseconds : " + 
+      				timeElapsed / 1000000+"ms";
+      		
+        htmlResponse += "</footer></html>";
         writer.println(htmlResponse);
-		//Time elapsed
-		long endTime = System.nanoTime();
-		long timeElapsed = endTime - startTime;
-		writer.println("\nExecution time in milliseconds : " + 
-				timeElapsed / 1000000+"ms");
-		}
+	}
 
-	
+
 	private String addNavBar(Problem sol) {
 		String nav="<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n" + 
 				"      <a class=\"navbar-brand\" href=\"routes.html\">Routing App</a>\n" + 
@@ -186,7 +234,7 @@ public class AddServlet extends HttpServlet
 				"            >\n" + 
 				"          </li>\n" + 
 				"          <li class=\"nav-item\">\n" + 
-				"            <a class=\"nav-link\" href=\"aboutus.html\">About us</a>\n" + 
+				"            <a class=\"nav-link\" href=\"routes.html\">About us</a>\n" + 
 				"          </li>\n" + 
 				"        </ul>\n" + 
 				"        <form class=\"form-inline my-2 my-lg-0\">\n" + 
@@ -211,7 +259,8 @@ public class AddServlet extends HttpServlet
 		for(int i=0;i<sol.best.truckPop.size();i++){
 			script +=
 	        		"      function mfunc"+i+"() {\n" +
-	        		"        var mymap"+i+" = L.map(\"mapid"+i+"\").setView(["+40.766666+", "+29.916668+"], 4);\n" + 
+	        		"        var mymap"+i+" = L.map(\"mapid"+i+"\").setView(["+sol.best.data.get(sol.best.truckPop.get(i).route.get(0)-1).lati+","
+	        				+ " "+sol.best.data.get(sol.best.truckPop.get(i).route.get(0)-1).longi+"], 5);\n" + 
 	        		"        const attribution =\n" + 
 	        		"          '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors';\n" + 
 	        		"        const tileUrl = \"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png\";\n" + 
@@ -242,9 +291,9 @@ public class AddServlet extends HttpServlet
 	        		"\n" + 
 	        		"        request.onreadystatechange = function () {\n" + 
 	        		"          if (this.readyState === 4) {\n" + 
-	        		"            console.log(\"Status:\", this.status);\n" + 
-	        		"            console.log(\"Headers:\", this.getAllResponseHeaders());\n" + 
-	        		"            console.log(\"Body:\", this.responseText);\n" + 
+	        		//"            console.log(\"Status:\", this.status);\n" + 
+	        		//"            console.log(\"Headers:\", this.getAllResponseHeaders());\n" + 
+	        		//"            console.log(\"Body:\", this.responseText);\n" + 
 	        		"            var geojsonFeature = JSON.parse(this.responseText);\n" + 
 	        		"            L.geoJSON(geojsonFeature).addTo(mymap"+i+");\n" + 
 	        		"          }\n" + 
@@ -277,17 +326,6 @@ public class AddServlet extends HttpServlet
 	        		"          '],[' +\n";
 		}
 		return info;
-	}
-
-
-	private String add_button_for_each_truck(Problem sol) {
-		String button ="";
-		for(int i=0;i<sol.best.truckPop.size();i++){
-			button +="    <button onclick=\"mfunc"+i+"()\">\n" + 
-	        		"      Truck"+i+"\n" + 
-	        		"    </button>\n";
-		}
-		return button;
 	}
 
 

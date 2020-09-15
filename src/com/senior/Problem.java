@@ -71,20 +71,7 @@ public class Problem {
 		//Tabu search
 		Tabu_Search tabu = new Tabu_Search(initial,max_counter,max_stalling,writer);
 		this.best=tabu.best;
-		
-		
-
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void go_heuristic(ArrayList<Truck> truckPop, ArrayList<Integer> destinations, ArrayList<City> data, int currentPos, int[] depots, PrintWriter writer) {
 		ArrayList<Integer> neighbors = new ArrayList<>(destinations);
