@@ -65,7 +65,7 @@ Give a ⭐️ if this project helped you!
 
 ## Team
 <p align="center">
-  <img src="https://raw.githubusercontent.com/iboraham/senior-project/master/src/webapps/senior_project/images/team0712.png" />
+  <img src="https://github.com/iboraham/senior-project/blob/master/team0712.png?raw=true" />
 </p>
 
 ## 📝 License
