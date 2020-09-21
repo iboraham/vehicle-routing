@@ -1,4 +1,8 @@
 import os
+import platform
 
-cmd = 'sh src/bin/shutdown.sh'
+if platform.system()=='Windows':
+	cmd = 'sh src/bin/shutdown.bat'
+else:
+	cmd = 'sh src/bin/shutdown.sh'
 os.system(cmd)
